@@ -1,0 +1,628 @@
+/* Importa fonte */
+@font-face{
+    font-family: 'Lexend Deca';
+    src: url(fonts/LexendDeca-VariableFont_wght.ttf);
+}
+
+@font-face{
+    font-family: 'Montserrat';
+    src: url(fonts/Montserrat-Regular.ttf);
+}
+
+/* Reseta o conteúdo do CSS */ 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+html, body {
+    scroll-snap-type: y mandatory; /* Habilita o snap de rolagem vertical */
+    scroll-behavior: smooth; /* Habilita rolagem suave */
+    overflow: hidden; /* Oculta a barra de rolagem */
+    height: 100%; /* Garante que o corpo ocupe toda a altura da tela */
+    overflow-y: auto; /* Permite rolagem vertical no corpo */
+}
+
+section {
+    /* scroll-snap-align: start; /* Alinha o início da seção ao ponto de snap */
+}
+
+/* Estilização do fundo da página */
+.bg {
+    background-image: url(img/server.jpg);
+    background-repeat: no-repeat; /* Não repete a imagem de fundo */
+    background-size: cover; /* Ajusta a imagem de fundo ao tamanho da tela */
+    background-position: center center; /* Posiciona a imagem de fundo */
+    width: 100%; /* define a largura da tela de acordo com a escala de largura do viewport */
+    mask-image: linear-gradient(to top, transparent, black 20%); /* Cria um efeito de máscara para o fundo */
+}
+
+/* Sobreposição do fundo com um degradê */
+.overlay {
+    border-image: linear-gradient(hsla(216, 100%, 56%, 0.5), hsla(0, 0%, 0%, 0.5)) fill 1;
+    mask-image: linear-gradient(to top, transparent, black 20%); /* Cria um efeito de máscara para o fundo */
+}
+
+/* Estilização do logo */
+.logo {
+    width: clamp(8rem, 20dvh + 10dvw, 10rem); /* Define o tamanho do logo (min, intermed., max) */
+    cursor: pointer; /* Muda o cursor do mouse para uma mão seletora */
+    transition: transform 0.3s ease; /* Animação de transição para a animação de scale */
+    margin-left: clamp(.5rem, 1dvh + 1dvw, 1.5rem); /* Define a margem esquerda do logo (min, intermed., max) */
+}
+
+.logo:hover {
+    transform: scale(1.03); /* Aumenta o tamanho do logo ao passar o mouse */
+}
+
+/* Estilização do botão do menu */
+.bt_menu {
+    display: none; /* Oculta o botão do menu */
+}
+
+/* Estilização do checkbox */
+#check {
+    position: absolute; /* Posiciona o checkbox de forma absoluta */
+    opacity: 0; /* Torna o checkbox invisível */
+    width: 0; /* Define a largura do checkbox como 0 */
+    height: 0; /* Define a altura do checkbox como 0 */
+}
+
+.navbar {
+    display: flex; /* Exibe a barra de navegação como um flex container */
+    justify-content: flex-start; /* Alinha os itens no início do container */
+    position: fixed; /* Fixa a barra de navegação no topo da tela */
+    top: 0; /* Posiciona a barra de navegação no topo da tela */
+    left: 0; /* Junto de 'left', faz a navbar preencher toda a parte superior da página */
+    right: 0;
+    height: clamp(4.5rem, 5dvw + 2dvh, 5rem); /* Define a altura da barra de navegação (min, intermed., max) */
+    background-color: hsl(0, 0%, 10%);
+    align-items: center; /* Alinha os itens verticalmente ao centro */
+    gap: clamp(1rem, 4dvw, 2.8rem); /* Espaçamento entre os itens da barra de navegação */
+    z-index: 1000; /* Garante que a barra de navegação fique acima de outros elementos */
+}
+
+/* Estilização da lista na barra de navegação */
+.navbar ul{
+    display: flex; /* Exibe os itens da lista como um flex container */
+    list-style: none; /* Remove os marcadores da lista */
+    height: auto; /* Permite que a altura da lista se ajuste ao conteúdo */
+    margin: 0;
+    padding: 0;
+    gap: 40px; /* Espaçamento entre os itens da lista */
+}
+
+/* Estilização dos itens da lista na barra de navegação */
+.navbar ul li {
+    display: flex; /* Exibe os itens da lista em linha */
+}
+
+/* Estilização dos itens da lista com links */
+.navbar ul li a {
+    display: flex; /* Faz os itens ocuparem todo o espaço do navbar */
+    position: relative; /* Necessário para o pseudo-elemento funcionar corretamente */
+    align-items: center; /* Alinha os itens verticalmente ao centro */
+    font-family: 'Lexend Deca', sans-serif;
+    color: white;
+    text-decoration: none; /* Remove o sublinhado dos links */
+    font-size: clamp(.5rem, 1.5dvh + 1.5dvw, 1.2rem);
+}
+
+.navbar ul li a::before {
+    content: ""; /* Necessário para que o pseudo-elemento funcione */
+    position: absolute; /* Posiciona o pseudo-elemento de forma absoluta */
+    left: 0; /* Posiciona o pseudo-elemento à esquerda do link */
+    bottom: -6px; /* Posiciona o pseudo-elemento abaixo do link */
+    height: 2px; /* Define a altura do pseudo-elemento */
+    width: 100%; /* Largura inicial do pseudo-elemento */
+    background-color: hsl(212, 100%, 70%); /* Cor do pseudo-elemento */
+    border-radius: 5px; /* Arredonda os cantos do pseudo-elemento */
+    transform: scaleX(0); /* Inicialmente, o pseudo-elemento está escondido */
+    transition: transform .15s linear; /* Animação de transição para a largura */
+}
+
+/* Efeito de animação dos itens da lista quando o cursor do mouse estiver sobre eles */
+.navbar ul li a:hover::before {
+    transform: scaleX(1); /* Expande o pseudo-elemento para a largura total do link */
+}
+
+/* Propriedade aplicadas ao texto da lista para a animação no próximo bloco */
+.navbar ul li a span {
+    display: inline-block; /* Permite que o texto ocupe o espaço necessário */
+    transition: color .3s ease, transform .3s ease; /* Animação de transição para a cor do texto */
+    transform-origin: center bottom; /* Define o ponto de origem da transformação no centro do texto */
+}
+
+/* Efeito de animação dos itens da lista quando o cursor do mouse estiver sobre eles */
+.navbar ul li a:hover span {
+    transform: scale(1.1); /* Aumenta o tamanho do texto ao passar o mouse */
+    color: hsl(212, 100%, 60%); /* Muda a cor do texto ao passar o mouse */
+}
+
+/* Estilização do item de inscrição na lista */
+.inscrever {
+    margin-left: auto; /* Alinha o item à direita do cabeçalho*/
+}
+
+/* Estilização do botão */
+.inscrever button{
+    padding: 8px 10px;
+    background-color: hsl(212, 100%, 60%);
+    border: none;
+    margin: 10px;
+    border-radius: 5px;
+    font-size: clamp(.8rem, 1dvw + .5dvh, 1rem);
+    font-family: 'Lexend Deca', sans-serif;
+    color: white;
+    cursor: pointer;
+    text-wrap: nowrap; /* Impede que o texto do botão quebre em várias linhas */
+    transition: background-color .3s ease-in-out, transform .3s ease-in-out; /* Animação de transição para a cor de fundo e transformação */
+}
+
+.inscrever button:hover {
+    background-color: #0479ff;
+    transform: scale(1.03); /* Aumenta o tamanho do botão ao passar o mouse */
+}
+
+.hero {
+    display: flex; /* Exibe o conteúdo como um flex container */
+    flex-direction: column; /* Organiza os itens em coluna */
+    align-items: center; /* Alinha os itens horizontalmente ao centro */
+    justify-content: center; /* Alinha os itens verticalmente ao centro */
+    height: 100dvh; /* Define a altura do container como 100% da altura do viewport */
+    padding: 0 clamp(2rem, 5dvh + 5dvw, 3rem); /* Define o padding das seções (min, intermed., max) */
+    color: white; /* Define a cor do texto */
+    gap: 20px; /* Espaçamento entre os itens do container */
+}
+
+/* Estilização da linha principal do conteúdo do body */
+.hero h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(1rem, 2.8dvh + 2.5dvw, 4.5rem); /* Define o tamanho da fonte (min, intermed., max) */
+    color: white; /* Define a cor do texto */
+    text-wrap: nowrap; /* Impede que o texto quebre em várias linhas */
+}
+
+/* Estilização do parágrafo logo abaixo da linha principal */
+.hero p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(.8rem, 1dvh + 1.5dvw, 2rem); /* Define o tamanho da fonte (min, intermed., max) */
+    color: white; /* Define a cor do texto */
+    text-align: center; /* Centraliza o texto */
+    max-width: 65ch;  /* Define a largura máxima do parágrafo */
+}
+
+.botoes_hero {
+    display: flex; /* Exibe os botões como um flex container */
+    flex-direction: row; /* Organiza os botões em linha */
+    margin-top: 20px; /* Espaçamento acima dos botões */
+    gap: 50px; /* Espaçamento entre os botões */
+}
+
+.bt_hero_dir button {
+    background-color: hsl(212, 100%, 60%);
+    padding: clamp(8px, 1dvw + 1dvh, 10px) clamp(10px, 2dvw + 2dvh, 15px);
+    border: none;
+    border-radius: 5px;
+    font-size: clamp(.8rem, 1dvw + 1dvh, 2rem);
+    font-family: 'Lexend Deca', sans-serif;
+    color: white;
+    cursor: pointer;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5); /* Adiciona uma sombra ao botão */
+    transition: background-color .3s ease-in-out, transform .3s ease-in-out; /* Animação de transição para a cor de fundo e transformação */
+}
+
+.bt_hero_dir button:hover {
+    background-color: #0479ff; /* Muda a cor do botão ao passar o mouse */
+    transform: scale(1.03); /* Aumenta o tamanho do botão ao passar o mouse */
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5); /* Aumenta a sombra do botão ao passar o mouse */
+}
+
+
+.bt_hero_esq button {
+    background-color: transparent;
+    padding: clamp(8px, 1dvw + 1dvh, 10px) clamp(10px, 2dvw + 2dvh, 15px);
+    border: none;
+    border-radius: 5px;
+    font-size: clamp(.8rem, 1dvw + 1dvh, 2rem);
+    font-family: 'Lexend Deca', sans-serif;
+    color: white;
+    cursor: pointer;
+    box-shadow: inset 0 0 0 2px white; /* Adiciona um contorno branco ao botão */
+    transition: background-color .3s ease-in-out, 
+                transform .3s ease-in-out, 
+                outline .5s ease-in-out,
+                box-shadow .5s ease-in-out; /* Animação de transição para a cor de fundo e transformação */
+}
+
+.bt_hero_esq button:hover {
+    background-color: white; /* Muda a cor do botão ao passar o mouse */
+    color: black; /* Muda a cor do texto ao passar o mouse */
+    transform: scale(1.02); /* Aumenta o tamanho do botão ao passar o mouse */
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5); /* Adiciona uma sombra ao botão */
+}
+
+.info {
+    display: grid; /* Exibe o container de informações como um grid */
+    grid-template-areas: 
+        "texto imagem"
+        "cards cards"; /* Define as áreas do grid */
+    grid-template-columns: 1fr 1fr; /* Define duas colunas de largura igual */
+    grid-template-rows: 60% 40%;
+    background: linear-gradient(to top, hsl(0, 0%, 100%) 0%, hsl(54, 100%, 94%) 80%, transparent); /* Define a cor de fundo do container de informações */
+    height: 100dvh; /* Define a altura do container como 100% da altura do viewport */
+    width: auto; /* Define a largura do container como 100% da largura do viewport */
+    padding: clamp(1rem, 2dvh + 2dvw, 3rem); /* Define o padding do container (min, intermed., max) */
+    gap: clamp(1rem, 2dvh + 2dvw, 3rem); /* Espaçamento entre os itens do grid */
+}
+
+.info_texto {
+    grid-area: texto; /* Define a área do grid para o texto */
+    display: flex; /* Exibe o texto como um flex container */
+    flex-direction: column; /* Organiza os itens do texto em coluna */
+    justify-content: center; /* Alinha os itens verticalmente ao centro */
+    font-family: 'Montserrat', sans-serif;
+    color: hsl(0, 0%, 20%); /* Define a cor do texto */
+    gap: 2rem; /* Espaçamento entre os itens do texto */
+}
+
+.info_texto h1 {
+    font-weight: bold; /* Define a fonte como negrito */
+    font-size: clamp(1rem, 3dvh + 3dvw, 3rem); /* Define o tamanho da fonte (min, intermed., max) */
+}
+
+.info_texto p {
+    font-size: clamp(.5rem, 1dvh + 1dvw, 1.5rem); /* Define o tamanho da fonte (min, intermed., max) */
+    text-align: justify; /* Justifica o texto */
+}
+
+.info_texto span {
+    font-weight: bold; /* Define o texto em negrito */
+}
+
+.info_img {
+    grid-area: imagem; /* Define a área do grid para a imagem */
+    display: flex; /* Exibe a imagem como um flex container */
+    position: relative; /* Necessário para o posicionamento absoluto do conteúdo */
+    justify-content: flex-end; /* Alinha os itens horizontalmente à direita */
+    height: auto; /* Permite que a altura do container se ajuste ao conteúdo */
+    width: 100%; /* Permite que a largura do container se ajuste ao conteúdo */
+    padding: clamp(1rem, 2dvh + 2dvw, 2rem); /* Define o padding da imagem (min, intermed., max) */
+}
+
+.img_01 {
+    position: absolute;
+    max-height: 100%; /* Mantém a proporção da imagem */
+    top: 0; /* Posiciona a imagem no topo do container */
+    right: 100px; /* Posiciona a imagem à direita do container */
+    height: auto; /* Permite que a altura da imagem se ajuste ao conteúdo */
+    width: auto; /* Permite que a largura da imagem se ajuste ao conteúdo */
+    border-radius: 10px; /* Arredonda os cantos da imagem */
+    mask-image: linear-gradient(to right, transparent, black 30%); /* Aplica um efeito de máscara na imagem */
+}
+
+.img_02 {
+    position: absolute; /* Posiciona a imagem de forma absoluta dentro do container */
+    max-height: 40%; /* Mantém a proporção da imagem */
+    top: 0; /* Posiciona a imagem no topo do container */
+    left: 200px; /* Posiciona a imagem à esquerda do container */
+    height: auto; /* Permite que a altura da imagem se ajuste ao conteúdo */
+    width: auto; /* Permite que a largura da imagem se ajuste ao conteúdo */
+    border-radius: 10px; /* Arredonda os cantos da imagem */
+    mask-image: radial-gradient(circle at left, black 30%, transparent 100%); /* Aplica um efeito de máscara na imagem */
+}
+
+.img_03 {
+    position: absolute; /* Posiciona a imagem de forma absoluta dentro do container */
+    max-height: 45%; /* Mantém a proporção da imagem */
+    top: 220px; /* Posiciona a imagem no topo do container */
+    left: 40px; /* Posiciona a imagem à direita do container */
+    height: auto; /* Permite que a altura da imagem se ajuste ao conteúdo */
+    width: auto; /* Permite que a largura da imagem se ajuste ao conteúdo */
+    border-radius: 10px; /* Arredonda os cantos da imagem */
+    mask-image: radial-gradient(circle at left, black 30%, transparent),
+                linear-gradient(30deg, black 50%, transparent); /* Aplica um efeito de máscara na imagem */
+    mask-composite: intersect; /* Interseção das máscaras aplicadas */
+}
+
+.info_cards {
+    grid-area: cards; /* Define a área do grid para o card */
+    display: grid; /* Exibe o card como um grid */
+    grid-template-columns: repeat(3, 1fr); /* Define três colunas de largura igual */
+    height: 70%; /* Define a largura do card como 100% da largura do container */
+    margin-left: clamp(3rem, 5dvh + 5dvw, 5rem); /* Define a margem esquerda do card (min, intermed., max) */
+    gap: clamp(.8rem, 1dvh + 1dvw, 2rem); /* Espaçamento entre os cards (min, intermed., max) */
+}
+
+.card01, .card02, .card03 {
+    display: flex; /* Exibe o card como um flex container */
+    flex-direction: column; /* Organiza os itens do card em coluna */
+    background-color: hsl(0, 0%, 50%); /* Define a cor de fundo do card */
+    border-radius: 10px; /* Arredonda os cantos do card */
+    width: 80%; /* Define a largura do card como 90% da largura do container */
+    padding: clamp(1rem, 2dvh + 2dvw, 2rem); /* Define o padding do card (min, intermed., max) */
+    box-shadow: 5px 5px 10px hsla(0, 0%, 0%, 0.8); /* Adiciona uma sombra ao card */
+    gap: clamp(.5rem, 1dvh + 1dvw, 1rem); /* Espaçamento entre os itens do card (min, intermed., max) */
+    transition: transform .3s ease-in-out, box-shadow .3s ease-in-out; /* Animação de transição para a animação de scale */
+}
+
+.card01:hover, .card02:hover, .card03:hover {
+    transform: scale(1.02); /* Aumenta o tamanho do card ao passar o mouse */
+    box-shadow: 3px 3px 5px hsla(0, 0%, 0%, 0.9); /* Adiciona uma sombra ao card */
+}
+
+.card_header {
+    display: flex; /* Exibe o cabeçalho do card como um flex container */
+    align-items: center; /* Alinha os itens verticalmente ao centro */
+    justify-content: left; /* Distribui os itens horizontalmente com espaço entre eles */
+    gap: 2rem; /* Espaçamento entre os itens do cabeçalho do card */
+}
+
+.info_cards h2 {
+    font-family: 'Lexend Deca', sans-serif;
+    font-size: clamp(.8rem, 1dvh + 1dvw, 2rem); /* Define o tamanho da fonte do título do card (min, intermed., max) */
+    color: hsl(0, 0%, 100%); /* Define a cor do texto do título do card */
+    margin-bottom: .5rem; /* Espaçamento abaixo do título do card */
+}
+
+.info_cards p {
+    font-family: 'Lexend Deca', sans-serif;
+    font-size: clamp(.5rem, .8dvh + .8dvw, 1.2rem); /* Define o tamanho da fonte do parágrafo do card (min, intermed., max) */
+    color: hsl(0, 0%, 80%); /* Define a cor do texto do parágrafo do card */
+    text-align: justify; /* Justifica o texto do parágrafo do card */
+}
+
+.info_cards i {
+    font-size: clamp(1.5rem, 2dvh + 2dvw, 2.5rem); /* Define o tamanho do ícone do card (min, intermed., max) */
+    color: hsl(0, 0%, 100%); /* Define a cor do ícone do card */
+    background-color: hsl(212, 100%, 70%); /* Define a cor de fundo do ícone do card */
+    border-radius: 10px; /* Arredonda os cantos do ícone do card */
+    padding: .2rem .8rem; /* Define o padding do ícone do card (min, intermed., max) */
+}
+
+.servicos {
+    display: grid; /* Exibe o container de serviços como um grid */
+    grid-template-areas:
+        "imagem_serv texto_serv";
+    grid-template-columns: 1fr 1fr; /* Define duas colunas de largura igual */
+    height: 100dvh; /* Define a altura do container como 100% da altura do viewport */
+    width: auto; /* Permite que a largura do container se ajuste ao conteúdo */
+    background-color: black; /* Define a cor de fundo do container de serviços */
+    mask-image: linear-gradient(to bottom, transparent, black 10%); /* Cria um efeito de máscara para o fundo */
+}
+
+.servicos_img {
+    grid-area: imagem_serv; /* Define a área do grid para a imagem */
+    display: flex; /* Exibe a imagem como um flex container */
+    height: 100%; /* Define a altura do container como 100% da altura do viewport */
+    width: 100%; /* Permite que a largura do container se ajuste ao conteúdo */
+    overflow: hidden; /* Oculta o conteúdo que ultrapassa o container */
+}
+
+.img_04 {
+    max-height: 100%; /* Mantém a proporção da imagem */
+    max-width: 100%; /* Mantém a proporção da imagem */
+    object-fit: cover; /* Ajusta a imagem para cobrir todo o container */
+    mask-image: linear-gradient(to left, transparent, black 30%),
+                linear-gradient(to top, black 90%, transparent); /* Aplica um efeito de máscara na imagem */
+    mask-composite: intersect; /* Interseção das máscaras aplicadas */
+}
+
+.servicos_texto {
+    grid-area: texto_serv; /* Define a área do grid para o texto */
+    display: flex; /* Exibe o texto como um flex container */
+    flex-direction: column; /* Organiza os itens do texto em coluna */
+    padding: 0 clamp(1rem, 4dvh + 4dvw, 5rem); /* Define o padding do container de texto (min, intermed., max) */
+    padding-top: clamp(2rem, 4dvh + 4dvw, 8rem); /* Define o padding superior do container de texto (min, intermed., max) */
+    color: white; /* Define a cor do texto */
+    font-family: 'Montserrat', sans-serif;
+    gap: 2rem; /* Espaçamento entre os itens do texto */
+}
+
+.texto_header h1 {
+    font-size: clamp(1rem, 3dvh + 3dvw, 4rem); /* Define o tamanho da fonte do título (min, intermed., max) */
+    text-wrap: nowrap; /* Impede que o texto quebre em várias linhas */
+}
+
+.texto_header p {
+    font-size: clamp(.8rem, 1dvh + 1dvw, 3rem); /* Define o tamanho da fonte do parágrafo (min, intermed., max) */
+    text-align: justify; /* Justifica o texto do parágrafo */
+}
+
+.texto_itens {
+    list-style: none; /* Remove os marcadores da lista */
+    padding-left: 0; /* Remove o padding esquerdo da lista */
+    display: flex; /* Exibe os itens da lista como um flex container */
+    flex-direction: column; /* Organiza os itens da lista em coluna */
+    gap: 2rem; /* Espaçamento entre os itens da lista */
+    color: hsl(0, 0%, 80%); /* Define a cor do texto dos itens da lista */
+}
+
+.texto_itens li {
+    display: flex; /* Exibe os itens da lista como um flex container */
+    flex-direction: column; /* Organiza os itens da lista em coluna */
+    gap: 1rem; /* Espaçamento entre os itens da lista */
+    font-size: clamp(.8rem, 1dvh + 1dvw, 1.5rem); /* Define o tamanho da fonte dos itens da lista (min, intermed., max) */
+}
+
+.texto_itens p {
+    font-size: clamp(.5rem, .8dvh + .8dvw, 1.5rem); /* Define o tamanho da fonte dos parágrafos dos itens da lista (min, intermed., max) */
+    text-align: justify; /* Justifica o texto dos itens da lista */
+}
+
+.item_header {
+    display: flex; /* Exibe o cabeçalho do item como um flex container */
+    align-items: center; /* Alinha os itens verticalmente ao centro */
+    gap: 1rem; /* Espaçamento entre os itens do cabeçalho do item */
+    color: hsl(216, 100%, 50%); /* Define a cor do ícone dos itens da lista */
+}
+
+.item_header i {
+    font-size: clamp(1.5rem, 2dvh + 2dvw, 2rem); /* Define o tamanho do ícone dos itens da lista (min, intermed., max) */
+}
+
+footer {
+    display: grid; /* Exibe o rodapé como um flex container */
+    grid-template-areas: 
+            "logo_footer linha contatos"
+            "lista_footer linha contatos"
+            "nota_final nota_final nota_final"; /* Define as áreas do grid */
+    grid-template-columns: 50% 10% 40%; /* Define três colunas de largura igual */
+    grid-template-rows: 30% 40% 30%; /* Define três linhas de altura igual */
+    justify-content: center; /* Distribui os itens verticalmente com espaço entre eles */
+    min-height: 30dvh; /* Define a altura do rodapé como 20% da altura do viewport */
+    padding: clamp(1rem, 2dvh + 2dvw, 5rem); /* Define o padding do rodapé (min, intermed., max) */
+    background-color: hsl(0, 0%, 20%); /* Define a cor de fundo do rodapé */
+    color: white;
+    gap: 1rem; /* Espaçamento entre os itens do rodapé */
+}
+
+.logo_footer {
+    grid-area: logo_footer; /* Define a área do grid para o logo do rodapé */
+    display: flex; /* Exibe o logo do rodapé como um flex container */
+}
+
+.logo_footer a {
+    display: inline-block; /* Exibe o logo do rodapé como um bloco em linha */
+    transition: transform .3s ease-in-out; /* Animação de transição para a animação de scale */
+}
+
+.logo_footer a:hover {
+    transform: scale(1.03); /* Aumenta o tamanho do logo do rodapé ao passar o mouse */
+}
+
+.logo_footer img {
+    max-height: clamp(1rem, 8dvh, 3rem); /* Define a altura máxima do logo do rodapé como 20% da altura do viewport */
+}
+
+.lista_footer {
+    grid-area: lista_footer;
+    text-wrap: nowrap; /* Impede que o texto da lista do rodapé quebre em várias linhas */
+}
+
+.lista_footer ul {
+    display: flex; /* Exibe a lista do rodapé como um flex container */
+    list-style: none; /* Remove os marcadores da lista */
+    padding-left: 0; /* Remove o padding esquerdo da lista */
+    gap: clamp(1rem, 2dvh + 2dvw, 3rem); /* Espaçamento entre os itens da lista do rodapé */
+}
+
+.lista_footer ul li a{
+    display: inline-block; /* Exibe os links da lista do rodapé como blocos em linha */
+    text-decoration: none; /* Remove o sublinhado dos links da lista do rodapé */
+    color: white; /* Define a cor do texto dos links da lista do rodapé */
+    font-family: 'Lexend Deca', sans-serif;
+    font-size: clamp(.5rem, 1dvh + 1dvw, 1.2rem); /* Define o tamanho da fonte dos links da lista do rodapé (min, intermed., max) */
+    transition: transform .3s ease-in-out, color .3s ease-in-out; /* Animação de transição para a cor do texto */
+}
+
+.lista_footer ul li a:hover {
+    transform: scale(1.05); /* Aumenta o tamanho do texto dos links da lista do rodapé ao passar o mouse */
+    color: hsl(212, 100%, 60%); /* Muda a cor do texto dos links da lista do rodapé ao passar o mouse */
+}
+
+.linha_footer {
+    grid-area: linha; /* Define a área do grid para a linha do rodapé */
+    width: 2px; /* Define a largura da linha como 2px */
+    height: 100%; /* Define a altura da linha como 100% da altura do rodapé */
+    background-color: white; /* Define a cor da linha como branca */
+    justify-self: center; /* Alinha a linha horizontalmente ao centro */
+}
+
+.redes_sociais {
+    grid-area: contatos; /* Define a área do grid para os contatos */
+}
+
+.redes_sociais h2 {
+    font-family: 'Lexend Deca', sans-serif;
+    font-size: clamp(.8rem, 1dvh + 1dvw, 2rem); /* Define o tamanho da fonte do título dos contatos (min, intermed., max) */
+    color: hsl(0, 0%, 100%); /* Define a cor do texto dos contatos */
+    margin-bottom: 2rem; /* Espaçamento abaixo do título dos contatos */
+}
+
+.redes_sociais ul {
+    display: grid; /* Exibe os contatos como um grid */
+    grid-template-columns: 1fr 1fr; /* Define três colunas de largura igual */
+    grid-template-rows: auto; /* Permite que a altura da lista de contatos se ajuste ao conteúdo */
+    list-style: none; /* Remove os marcadores da lista de contatos */
+    padding-left: 0; /* Remove o padding esquerdo da lista de contatos */
+}
+
+.redes_sociais ul li a {
+    display: flex; /* Exibe os links dos contatos como blocos em linha */
+    text-decoration: none; /* Remove o sublinhado dos links dos contatos */
+    color: white; /* Define a cor do texto dos links dos contatos */
+    gap: 1rem; /* Espaçamento entre os ícones e o texto dos links dos contatos */
+    font-family: 'Lexend Deca', sans-serif;
+    font-size: clamp(.5rem, 1dvh + 1dvw, 1.2rem); /* Define o tamanho da fonte dos links dos contatos (min, intermed., max) */
+    transition: transform .3s ease-in-out, color .3s ease-in-out; /* Animação de transição para a cor do texto */
+}
+
+.redes_sociais ul li a:hover {
+    transform: scale(1.02); /* Aumenta o tamanho do texto dos links dos contatos ao passar o mouse */
+    color: hsl(212, 100%, 60%); /* Muda a cor do texto dos links dos contatos ao passar o mouse */
+}
+
+.texto_footer {
+    grid-area: nota_final; /* Define a área do grid para o texto do rodapé */
+    justify-self: center; /* Alinha o texto do rodapé horizontalmente ao centro */
+    align-self: end; /* Alinha o texto do rodapé verticalmente ao final */;
+    font-family: 'Lexend Deca', sans-serif;
+    font-weight: 200;
+}
+
+.texto_footer p {
+    margin: 0; /* Remove a margem do texto do rodapé */
+    font-size: clamp(.5rem, 1dvh + 1dvw, 1.2rem); /* Define o tamanho da fonte do texto do rodapé (min, intermed., max) */
+    color: hsl(0, 0%, 80%); /* Define a cor do texto do rodapé */
+}
+
+@media all and (max-width: 680px){
+    .bt_menu {
+        display: flex; /* Exibe o botão do menu */
+        flex-direction: row; /* Exibe os itens do botão do menu em linha */
+        align-items: center; /* Alinha os itens verticalmente ao centro */
+        justify-content: center; /* Alinha os itens horizontalmente ao centro */
+        gap: 5px; /* Espaçamento entre os itens do botão do menu */
+        cursor: pointer; /* Muda o cursor do mouse para uma mão seletora */
+    }
+
+    #list i{
+        display: inline-block; /* Exibe o ícone do botão do menu como um bloco em linha */
+        font-size: clamp(1.5rem, 4dvh + 4dvw, 2rem); /* Define o tamanho do ícone do botão do menu */  
+        color: white; /* Define a cor do ícone do botão do menu */
+        pointer-events: auto; /* Permite que o ícone do botão do menu receba eventos de mouse */
+        transition: transform .3s ease-in-out; /* Animação de transição para a animação de scale */
+    }
+
+    #list:hover i {
+        transform: scale(1.1); /* Aumenta o tamanho do ícone do botão do menu ao passar o mouse */
+    }
+
+    #seta i {
+        display: inline-block; /* Exibe o ícone da seta como um bloco em linha */
+        font-size: clamp(1rem, 2dvh + 2dvw, 2rem); /* Define o tamanho do ícone da seta */
+        color: white; /* Define a cor do ícone da seta */
+        transition: 0.3s ease-in-out; /* Animação de transição para a animação de rotação */
+    }
+
+    #check:checked + label #seta i {
+        transform: rotate(180deg); /* Rotaciona o ícone da seta ao clicar no botão do menu */
+    }
+
+    .botoes_hero {
+        display: flex; /* Exibe os botões como um flex container */
+        flex-direction: column; /* Organiza os botões em linha */
+        gap: 20px; /* Espaçamento entre os botões */
+    }
+
+    .bt_hero_dir button {
+        font-size: clamp(1rem, 1dvw + 1dvh, 2rem);
+    }
+
+    .bt_hero_esq button {
+        font-size: clamp(1rem, 1dvw + 1dvh, 2rem);
+    }
+}
